@@ -45,4 +45,4 @@ Bundler is not yet integrated. Please install the dependencies first:
   
 Now just run one of the sample files
 
-  ruby samples/primes.rb
+    ruby samples/primes.rb
