@@ -15,4 +15,20 @@ describe IncludeJs do
     
     test_module.square(4).should be 16
   end
+  
+  it "can include a ruby like JS modul" do
+    class TestClass
+      include IncludeJs
+
+      includejs_root('spec/support')
+      
+      includejs 'test_ruby_like_module'
+    end
+    
+    test = TestClass.new
+    
+    test.plus(1, 2).should be 3
+    test.minus(1, 2).should be -1
+    test.minus(2, 1).should be 1
+  end
 end
