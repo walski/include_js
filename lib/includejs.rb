@@ -31,7 +31,7 @@ module IncludeJs
       @includejs_root_path = root_path
     end
     
-    def includejs(file)
+    def includejs(module_name)
       cxt = V8::Context.new
       cxt['__include_method'] = lambda do |name, method|
         define_method name do |*args|
@@ -39,7 +39,7 @@ module IncludeJs
         end
       end
       
-      cxt['__include_obj'] = cxt.load(interpolated_path(file))
+      cxt['__include_obj'] = IncludeJs.require(module_name)
       
       cxt.eval('
         for (var key in __include_obj) {
@@ -48,11 +48,6 @@ module IncludeJs
           }
         }
       ')
-    end
-    
-    protected
-    def interpolated_path(file)
-      "#{@includejs_root_path}/#{file}.js"
     end
   end
 end

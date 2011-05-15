@@ -22,7 +22,7 @@ describe IncludeJs do
 
       includejs_root('spec/support')
       
-      includejs 'test_ruby_like_module'
+      includejs 'test_module'
     end
     
     test = TestClass.new
@@ -30,5 +30,7 @@ describe IncludeJs do
     test.plus(1, 2).should be 3
     test.minus(1, 2).should be -1
     test.minus(2, 1).should be 1
+
+    test.square(4).should be 16
   end
 end
