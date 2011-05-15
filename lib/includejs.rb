@@ -8,6 +8,7 @@ module IncludeJs
   def self.require(module_name)
     cxt = V8::Context.new()
     cxt.eval('var exports = {};')
+    cxt['require'] = lambda {|m| require(m)}
     cxt.load(interpolated_path(module_name))
     cxt['exports']
   end

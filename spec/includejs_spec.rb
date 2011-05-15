@@ -12,5 +12,7 @@ describe IncludeJs do
     test_module.plus(1, 2).should be 3
     test_module.minus(1, 2).should be -1
     test_module.minus(2, 1).should be 1
+    
+    test_module.square(4).should be 16
   end
 end
