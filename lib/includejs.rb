@@ -1,24 +1,20 @@
 module IncludeJs
   require 'v8'
-      
-  def self.require(module_name)
-    cxt = V8::Context.new()
-    cxt['exports'] = {}
-    cxt['require'] = lambda {|m| require(m)}
-    cxt.load(interpolated_path(module_name))
-    cxt['exports']
-  end
+     
+  class << self   
+    attr_accessor :root_path
+    
+    def require(module_name)
+      cxt = V8::Context.new()
+      cxt['exports'] = {}
+      cxt['require'] = lambda {|m| require(m)}
+      cxt.load(interpolated_path(module_name))
+      cxt['exports']
+    end
   
-  def self.root_path=(root_path)
-    @root_path = root_path
-  end
-  
-  def self.root_path
-    @root_path || File.expand_path('.')
-  end
-  
-  def self.included(clazz)
-    clazz.extend(ClassMethods)
+    def included(clazz)
+      clazz.extend(ClassMethods)
+    end
   end
   
   protected
