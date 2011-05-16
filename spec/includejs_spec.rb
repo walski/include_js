@@ -2,11 +2,10 @@ require 'rubygems'
 require 'rspec'
 
 require 'includejs'
+IncludeJs.root_path = './spec/support'
 
 describe IncludeJs do
-  it "can load a CommonJS module" do
-    IncludeJs.require_root = 'spec/support'
-    
+  it "can load a CommonJS module" do        
     test_module = IncludeJs.require("test_module")
     
     test_module.plus(1, 2).should be 3
@@ -18,10 +17,7 @@ describe IncludeJs do
   
   it "can include a ruby like JS modul" do
     class TestClass
-      include IncludeJs
-
-      includejs_root('spec/support')
-      
+      include IncludeJs      
       includejs 'test_module'
     end
     
