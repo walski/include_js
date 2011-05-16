@@ -1,5 +1,7 @@
 module IncludeJs
   require 'v8'
+  
+  @root_path = File.expand_path('.')
      
   class << self   
     attr_accessor :root_path
