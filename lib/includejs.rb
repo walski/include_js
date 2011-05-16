@@ -28,22 +28,12 @@ module IncludeJs
   
   module ClassMethods    
     def includejs(module_name)
-      cxt = V8::Context.new
-      cxt['__include_method'] = lambda do |name, method|
-        define_method name do |*args|
+      IncludeJs.require(module_name).each do |name, method|
+        define_method name do |*args| 
           method.call(*args)
         end
       end
-      
-      cxt['__include_obj'] = IncludeJs.require(module_name)
-      
-      cxt.eval('
-        for (var key in __include_obj) {
-          if (__include_obj.hasOwnProperty(key)) {
-            __include_method(key, __include_obj[key]);
-          }
-        }
-      ')
     end
   end
+  
 end
