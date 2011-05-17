@@ -5,10 +5,8 @@ describe IncludeJs do
     spec = File.basename(dir)
     send 'it', "passes the Modules 1.0 '#{spec}' test" do
       outcome = []
-      env = IncludeJs::Env.new(dir, :globals => {
-        :print => lambda { |*args| outcome << args.first }
-      })
-      env.require('program')
+      IncludeJs.root_path = dir
+      env = IncludeJs.require('program', :print => lambda { |*args| outcome << args.first } )
       outcome.join.should_not include 'FAIL'
     end 
   }

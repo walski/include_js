@@ -17,8 +17,7 @@ describe IncludeJs do
   
   it "can include a ruby like JS modul" do
     class TestClass
-      include IncludeJs
-      includejs 'test_module'
+      include IncludeJs.module('test_module')
     end
     
     test = TestClass.new
