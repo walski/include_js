@@ -1,48 +1,40 @@
-# defjs: Add JavaScript methods to your Ruby classes
+# IncludeJS - Use CommonJS modules inside Ruby (via therubyracer / V8)
 
-## Features
-- Write methods in JS and use them in Ruby like normal methods:
+This is an experiment to see if we can use CommonJS Modules inside Ruby.
 
-      class Sample
-        include DefJs
-    
-        defjs %{sample(a,b)
-          "This is a sample: " + a + ", " + b;
-        }
-      end
-  
-      my_sample = Sample.new
-      my_sample.sample(3,6) # => "This is a sample: 3, 6"
-  
-- Export your class to a JS object which contains all the JS methods:
+Currently it supports the CommonJS Modules 1.0 spec (http://www.commonjs.org/specs/modules/1.0/).
 
-      # Re-open class to add a simple, empty to_json method
-      class Sample
-        def to_json
-          "{}"
-        end
-      end
-  
-      # Export the class:
-      my_sample.to_js_model
-      
-## Use case
-defjs is build to use and pass models around seamlessly from a Ruby server
-to a JS client.
+
+## Synopsis
+Writing your JavaScript code in a CommonJS Module way is very easy. See spec/support for examples.
+
+Load a Module
+
+    helpers = IncludeJS.require('helpers') # This returns a V8::Object
+    helpers.foo # => 42
+
+Alternatively you can use the 'module' method, which returns a basic Ruby Module.
+
+    class App
+      include IncludeJS.require('helpers')
+    end
+    App.new.foo # => 42
+
+You can set one root path from where to load .js files
+
+    IncludeJS.root_path = 'my/app/javascripts'
+
+
+Have fun.
+
+
+## Run the specs
+    git submodule update --init
+    bundle install
+    bundle rspec spec    
 
 ## Speed
 Simple benchmarks are showing a noticeable gain of speed when using JS methods
 instead of native Ruby ones. While the Google V8 seems to be 10x faster than 
 Ruby 1.8.7 it is still 4x as fast as Ruby 1.9.2
 
-Check the sample files.
-
-## Installation
-Bundler is not yet integrated. Please install the dependencies first:
-
-    gem install json
-    gem install therubyracer
-  
-Now just run one of the sample files
-
-    ruby samples/primes.rb

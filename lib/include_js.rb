@@ -1,5 +1,6 @@
-require 'v8'  
-module IncludeJs
+require 'v8'
+
+module IncludeJS
   @root_path = File.expand_path('.')
   @modules = {} # This stores all loaded modules by their absolute path (not their id)  
   
@@ -26,7 +27,7 @@ module IncludeJs
       path = absolute_path(module_id, caller_path)
       return @modules[path] if @modules[path]
       
-      cxt = V8::Context.new # FIXME I have a strong feeling that there should be only one Context for every environment
+      cxt = V8::Context.new # FIXME Maybe we should use only one Context for everything
       globals.each { |name, value| cxt[name] = value }
       cxt['require'] = lambda { |module_id| load_module(module_id, globals, path) }
       cxt['exports'] = {}
@@ -39,7 +40,7 @@ module IncludeJs
       root = (module_id.start_with?('.') && caller_path) ? File.dirname(caller_path) : @root_path
       File.expand_path("#{root}/#{module_id}.js")
     end
-    
+        
   end
   
 end
