@@ -1,3 +1,0 @@
-[submodule "spec/support/commonjs"]
-	path = spec/support/commonjs
-	url = git://github.com/commonjs/commonjs.git
